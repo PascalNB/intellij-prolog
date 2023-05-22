@@ -6,8 +6,10 @@ import com.intellij.psi.stubs._
 import tech.phosphorus.intellij.prolog.PrologLanguage
 import tech.phosphorus.intellij.prolog.psi.PrologPredicateId
 import tech.phosphorus.intellij.prolog.psi.impl.PrologPredicateIdImpl
+import com.intellij.psi.stubs.StubElement
 
-abstract class PrologStubBase[T <: PsiElement](parent: StubElement[_], ty: PrologStubElementType[_ <: com.intellij.psi.stubs.StubElement[_ <: com.intellij.psi.PsiElement], _ <: com.intellij.psi.PsiElement])
+abstract class PrologStubBase[T <: PsiElement](parent: StubElement[_ <: PsiElement],
+  ty: IStubElementType[_ <: StubElement[_], _ <: PsiElement])
   extends StubBase[T](parent, ty)
 
 abstract class PrologStubElementType[StubT <: StubElement[_], PsiT <: PsiElement](debugName: String)
@@ -30,7 +32,7 @@ trait PrologPredicateStub extends StubElement[PrologPredicateId] {
   val name: String
 }
 
-class PrologPredicateStubImpl(stub: StubElement[_],override val name: String)
+class PrologPredicateStubImpl(stub: StubElement[_ <: PsiElement],override val name: String)
   extends PrologStubBase[PrologPredicateId](stub, PrologStubElementType.PREDICATE_ID) with PrologPredicateStub
 
 class PrologPredicateType(debugName: String) extends PrologStubElementType[PrologPredicateStub, PrologPredicateId](debugName) {
